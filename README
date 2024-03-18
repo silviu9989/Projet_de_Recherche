@@ -1,0 +1,11 @@
+1) Clone/git pull the repo
+
+2) make clean
+
+3) make
+
+4.1) for the ECC multiplications: ./main.bin
+
+4.2) for the key verification:    ./ecdh
+	Les scalaires 'k' seront imprimes dans le fichier input_keys.txt
+	Les points resultans 'R (Rx, Ry)' seront imprimes dans le fichier output_points.txt
