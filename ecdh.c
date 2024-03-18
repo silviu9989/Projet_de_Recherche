@@ -3,23 +3,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <wolfssl/options.h>
-#include <wolfssl/wolfcrypt/settings.h>
-#include <wolfssl/ssl.h>
-#include <wolfssl/wolfcrypt/types.h>
-#include <wolfssl/wolfcrypt/random.h>
-#include <wolfssl/wolfcrypt/ecc.h>
-#include <wolfssl/wolfcrypt/sp_int.h>
-#include <wolfssl/wolfcrypt/integer.h>
-#include <wolfssl/wolfcrypt/wolfmath.h>
-#include <wolfssl/wolfcrypt/sha.h>
-#include <wolfssl/wolfcrypt/error-crypt.h>
-#include <wolfssl/wolfcrypt/hash.h>
-#include <wolfssl/wolfcrypt/asn.h>
-#include <wolfssl/wolfcrypt/aes.h>
-#include "WJ/WjCryptLib_AesCtr.h"
 #include <stdlib.h>
-#define NB_KEYS 10 //number of keys to compute: TO CHANGE
+#include "WJ/WjCryptLib_AesCtr.h"
+
+#define NB_KEYS 10 //number of keys to compute: TO CHANGE IF NEED BE
 
 void add_point(mpz_t Sumx, mpz_t Sumy, mpz_t P1x, mpz_t P1y, mpz_t P2x, mpz_t P2y, mpz_t modulo_base)
 {
@@ -100,10 +87,7 @@ void multiply_point(mpz_t Rezx, mpz_t Rezy, mpz_t Px, mpz_t Py, mpz_t scalar, mp
     }
 }
 
-#ifndef __min
-   #define __min( x, y )  (((x) < (y))?(x):(y))
-#endif
-
+#define ___min( x, y )  (((x) < (y))?(x):(y))
 #define BUFFER_SIZE             1024
 
 static
@@ -168,9 +152,7 @@ void
     uint8_t         IV [AES_CTR_IV_SIZE];
     uint32_t        IVSize = sizeof(IV);
 
-
     ReadHexData( key_input, key, &keySize );
-
     ReadHexData( IV_input, IV, &IVSize );
 
     AesCtrInitialiseWithKey( &aesCtr, key, keySize, IV );
@@ -178,7 +160,7 @@ void
     amountLeft = numBytes;
     while( amountLeft > 0 )
     {
-        chunk = __min( amountLeft, BUFFER_SIZE );
+        chunk = ___min( amountLeft, BUFFER_SIZE );
         AesCtrOutput( &aesCtr, buffer, chunk );
         amountLeft -= chunk;
 

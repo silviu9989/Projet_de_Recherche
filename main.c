@@ -1,8 +1,8 @@
-#undef ECC_TIMING_RESISTANT
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <wolfssl/options.h>
 #include <wolfssl/wolfcrypt/settings.h>
 #include <wolfssl/ssl.h>
@@ -18,12 +18,9 @@
 #include <wolfssl/wolfcrypt/asn.h>
 #include <wolfssl/wolfcrypt/aes.h>
 #include "WJ/WjCryptLib_AesCtr.h"
-#include <stdlib.h>
 
-#ifndef __min
-   #define __min( x, y )  (((x) < (y))?(x):(y))
-#endif
 
+#define __min( x, y )  (((x) < (y))?(x):(y))
 #define BUFFER_SIZE_AES             1024
 
 //  ReadHexData
@@ -114,57 +111,15 @@ void
     }
 }
 
-#define OPENSSL_EXTRA
-#undef ECC_TIMING_RESISTANT
-
 
 int main() {
-    int curveId = ECC_SECP256R1;
-    //int ret;
 
-    /*ecc_key key;
-    WC_RNG rng;
-    wc_ecc_init(&key);
-    wc_InitRng(&rng);
-    int keySize = wc_ecc_get_curve_size_from_id(curveId);
-    ret = wc_ecc_make_key_ex(&rng, keySize, &key, curveId);*/ //partea asta foloseste doar la generarea rng ului
 
     //generate random numbers based on aes ctr;
     //1st arg: key (128/192/256 bits written in hex)
     //2nd arg: IV (64 bits in hex)
     //3rd arg: desired length of pseudo random sequence
     //mp_int aess; mp_init(&aess); AES_RNG_CTR("00000000000000000000000000000000", "0000000000000000", 32, &aess); sp_print(&aess, "aess");
-
-
-    //get param of ecc curve
-    /*mp_int a, b, prime, order, ra, s;
-    mp_init_multi(&a,&b,&prime,&order,&ra,&s);
-    ret = mp_read_radix(&a,key.dp->Af,16);
-    printf("mp_int af: %i\n", ret);
-
-    ret = mp_read_radix(&b,key.dp->Bf,16);
-    printf("mp_int bf: %i\n", ret);
-
-    ret = mp_read_radix(&prime,key.dp->prime,16);
-    printf("mp_int prime: %i\n", ret);
-
-    ret = mp_read_radix(&order,key.dp->order,16);
-    printf("mp_int order: %i\n", ret);
-
-    ret = wc_ecc_gen_k(&rng,32,&ra,&order);
-    printf("mp_int ra: %i\n", ret);
-
-    ret = mp_copy(key.k,&s);
-    printf("mp_int s: %i\n", ret);*/
-
-    //scoaterea functiilor
-    //ecc_point* pointG = wc_ecc_new_point();
-    //ret = wc_ecc_get_generator(pointG,wc_ecc_get_curve_idx(curveId));
-    //printf("get ecc_point pointG: %i\n", ret);
-    //sp_print(pointG->x, "Gx");
-    //sp_print(pointG->y, "Gy");
-    //ret = wc_ecc_is_point(pointG,&a,&b,&prime);
-    //printf("point is on curve: %i\n", ret);
 
 
     //wc_get_curve_params pour lire les paramètres de la courbe (convertir les chaînes de caractères avec mp_read_radix)
@@ -214,6 +169,11 @@ int main() {
 
 //test2:ra1,ra2 are big numbers; ra3 = ra1*ra2, D = ra3*G,E = ra2*G,F = ra1*E=> D == F
     mp_int ra1,ra2,ra3; mp_init_multi(&ra1,&ra2,&ra3,NULL,NULL,NULL);
+    
+    //generate random numbers based on aes ctr;
+    //1st arg: key (128/192/256 bits written in hex)
+    //2nd arg: IV (64 bits written in hex)
+    //3rd arg: desired length of pseudo random sequence
     AES_RNG_CTR("00000000000000000000000000000000", "0000000000000000", 32, &ra1);
     AES_RNG_CTR("00000000000000000000000000000000", "0000000000000000", 32, &ra2);
     

@@ -2836,7 +2836,7 @@ int ecc_map(ecc_point* P, mp_int* modulus, mp_digit mp)
 static int ecc_mulmod(const mp_int* k, ecc_point* tG, ecc_point* R,
     ecc_point** M, mp_int* a, mp_int* modulus, mp_digit mp, WC_RNG* rng)
 {
-    printf("je dois etre ici!\n");
+   //printf("je dois etre ici!\n");
    int      err = MP_OKAY;
    int      i;
    int      first = 1, bitbuf = 0, bitcpy = 0, j;
